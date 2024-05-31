@@ -11,17 +11,17 @@ const itemsData = [
   {
     id: v4(),
     name: "Python",
-    desc: "Learn python through documentation"
+    desc: "Learn python from documentation"
   },
   {
     id: v4(),
     name: "Java",
-    desc: "Learn Java through documentation"
+    desc: "Learn Java from documentation"
   },
   {
     id: v4(),
     name: "OOPS",
-    desc: "Learn OOPS through documentation kndbklnsvnnvlasdnvklnwrjbnnns lanbvlsvlns lsnbvklnsraklbnksfdnvsbab"
+    desc: "Targeting this Week"
   }
 ]
 
