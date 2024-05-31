@@ -1,5 +1,5 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import { DragDropContext } from "react-beautiful-dnd";
 import _ from "lodash";
@@ -7,7 +7,7 @@ import { v4 } from "uuid";
 import InputForm from './components/InputForm';
 import Column from './components/Column';
 
-const itemsData = [
+const initialItemsData = [
   {
     id: v4(),
     name: "Python",
@@ -23,13 +23,17 @@ const itemsData = [
     name: "OOPS",
     desc: "Targeting this Week"
   }
-]
+];
 
-function App() {
-  const [state, setState] = useState({
+const loadStateFromLocalStorage = () => {
+  const savedState = localStorage.getItem('taskState');
+  if (savedState) {
+    return JSON.parse(savedState);
+  }
+  return {
     "todo": {
       title: "Todo",
-      items: itemsData
+      items: initialItemsData
     },
     "in-progress": {
       title: "In Progress",
@@ -39,7 +43,19 @@ function App() {
       title: "Completed",
       items: []
     }
-  });
+  };
+};
+
+const saveStateToLocalStorage = (state) => {
+  localStorage.setItem('taskState', JSON.stringify(state));
+};
+
+function App() {
+  const [state, setState] = useState(loadStateFromLocalStorage());
+
+  useEffect(() => {
+    saveStateToLocalStorage(state);
+  }, [state]);
 
   const handleDragEnd = ({ destination, source }) => {
     if (!destination) {
@@ -55,7 +71,13 @@ function App() {
 
     // Add timestamp if moved to "done" state
     if (destination.droppableId === "done") {
-      itemCopy.timestamp = new Date().toLocaleString();
+      itemCopy.timestamp = new Date().toLocaleString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
     }
 
     setState(prev => {
@@ -103,7 +125,13 @@ function App() {
 
       // Add timestamp if moved to "done" state
       if (toColumn === "done") {
-        itemToMove.timestamp = new Date().toLocaleString();
+        itemToMove.timestamp = new Date().toLocaleString('en-GB', {
+          day: '2-digit',
+          month: 'short',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
       }
 
       // Add the item to the new column
