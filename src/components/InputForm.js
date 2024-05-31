@@ -16,8 +16,8 @@ const InputForm = ({ addItem }) => {
   };
 
   const handleAddTask = () => {
-    if (text.trim() === '' || desc.trim() === '') {
-      alert('Please enter task name and description.');
+    if (text.trim() === '') {
+      alert('Please enter task name.');
       return;
     }
 
